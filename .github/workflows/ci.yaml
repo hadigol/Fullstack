@@ -105,11 +105,11 @@ jobs:
 
       - name: TF apply
         if: github.base_ref == 'devel'
-        run: terraform apply -var="bucket_name=fullstack-hadi-${{github.run_id}} -auto-approve"
+        run: terraform apply -var="bucket_name=fullstack-hadi-${{github.run_id}}" -auto-approve
             
       - name: TF apply
         if: github.base_ref != 'devel'
-        run: terraform apply -auto-approve"
+        run: terraform apply -auto-approve
 
       - name: output bucket_name
         id: tf_output_bucket_name
