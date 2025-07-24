@@ -4,6 +4,28 @@ on:
   pull_request:
 
 jobs:
+  check-merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: merge into stage
+        if: github.base_ref == 'stage' && github.head_ref != 'devel'
+        run: |
+          echo "Merges into Stage MUST come from devel - FAILING"
+          exit 1
+      - name: merge into prod
+        if: github.base_ref == 'prod' && github.head_ref != 'stage'
+        run: |
+          echo "Merges into prod MUST come from stage - FAILING"
+          exit 1
+      - name: merge into devel
+        if: github.base_ref == 'devel'
+        run: |
+          echo "Checking branch name into devel"
+          if [[! "${{github.head_ref}}" ~= ^(feature|bugfix)/]]; then
+            echo "Branch head ref name incorrect, must start with feature/ or bugfix/"
+            exit 1
+          fi
+      
   build:
     runs-on: ubuntu-latest
 
