@@ -21,11 +21,10 @@ jobs:
         if: github.base_ref == 'devel'
         run: |
           echo "Checking branch name into devel"
-          if [[! "${{github.head_ref}}" ~= ^(feature|bugfix)/]]; then
+          if [[ ! "${{github.head_ref}}" =~ ^(feature|bugfix)/ ]]; then
             echo "Branch head ref name incorrect, must start with feature/ or bugfix/"
             exit 1
           fi
-      
   build:
     runs-on: ubuntu-latest
 
